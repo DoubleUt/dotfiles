@@ -2,10 +2,13 @@
 export LANG=ja_JP.UTF-8
 export GOPATH=$HOME
 
+export PATH=/usr/local/bin:$PATH
+
 export PATH="$HOME/.pyenv/bin:$PATH"
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:$GOPATH/bin
+
 
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
