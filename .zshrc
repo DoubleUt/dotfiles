@@ -8,7 +8,7 @@ export PATH="$HOME/.pyenv/bin:$PATH"
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:$GOPATH/bin
-
+export PATH=$HOME/.cask/bin:$PATH
 
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
@@ -118,7 +118,7 @@ bindkey '^R' history-incremental-pattern-search-backward
 # エイリアス
 alias gp='cd $(ghq list -p | peco)'
 alias repo='cd ~/src/github.com/wtnbass/'
-
+alias e="emacs"
 alias la='ls -a'
 alias ll='ls -l'
 
