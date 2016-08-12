@@ -1,3 +1,7 @@
+;; Setting Cask
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
+
 ;; backspaceをC-hに割り当てる
 (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
 
@@ -10,9 +14,10 @@
 ;; バックアップファイルを作らない
 (setq make-backup-files nil)
 
-;; Setting Cask
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-
-(nyan-mode 1)
+;; nyan-mode
+(nyan-mode)
 (nyan-start-animation)
+
+;; emmet-mode
+(add-hook 'sgml-mode-hook 'emmet-mode)
+(add-hook 'css-mode-hook 'emmet-mode)
