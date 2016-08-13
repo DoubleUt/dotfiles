@@ -2,6 +2,10 @@
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
 
+;; helm
+(helm-mode 1)
+(global-set-key (kbd "M-x") 'helm-M-x)
+
 ;; backspaceをC-hに割り当てる
 (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
 
