@@ -17,6 +17,21 @@
 
 ;; バックアップファイルを作らない
 (setq make-backup-files nil)
+;; js2-jsx-mode
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-jsx-mode))
+;; flycheck
+(require 'flycheck)
+(flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
+(add-hook 'js2-jsx-mode-hook 'flycheck-mode)
+
+;; auto-complete
+(add-hook 'eamcs-lisp-mode-hook '(lamda ()
+					(require 'auto-complete)
+					(auto-complete-mode t)
+					))
+(require 'auto-complete-config)
+(ac-config-default)
+(add-to-list 'ac-modes 'js2-jsx-mode)
 
 ;; nyan-mode
 (nyan-mode)

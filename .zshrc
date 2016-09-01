@@ -117,7 +117,7 @@ bindkey '^R' history-incremental-pattern-search-backward
 ########################################
 # エイリアス
 alias gp='cd $(ghq list -p | peco)'
-alias repo='cd ~/src/github.com/wtnbass/'
+alias repo='cd ~/src/github.com/kwaatnb/'
 alias e="emacs"
 alias la='ls -a'
 alias ll='ls -l'

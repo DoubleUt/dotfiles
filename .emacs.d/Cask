@@ -1,6 +1,7 @@
 (source gnu)
 (source melpa)
 
+(depends-on "auto-complete")
 (depends-on "bind-key")
 (depends-on "cask")
 (depends-on "dash")
@@ -14,6 +15,8 @@
 (depends-on "helm")
 (depends-on "htmlize")
 (depends-on "idle-highlight-mode")
+(depends-on "js2-mode")
+(depends-on "json-mode")
 (depends-on "markdown-mode")
 (depends-on "magit")
 (depends-on "multiple-cursors")
