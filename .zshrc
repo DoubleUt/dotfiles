@@ -120,6 +120,7 @@ alias gp='cd $(ghq list -p | peco)'
 alias repo='cd ~/src/github.com/kwatnb/'
 
 alias e="emacs -nw"
+alias ew='emacs -geometry 200x60'
 alias la='ls -a'
 alias ll='ls -l'
 
