@@ -3,6 +3,7 @@
 
 (depends-on "auto-complete")
 (depends-on "bind-key")
+(depends-on "color-theme-solarized")
 (depends-on "cask")
 (depends-on "dash")
 (depends-on "drag-stuff")
