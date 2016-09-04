@@ -15,6 +15,9 @@
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 4)
 
+;; SPACE, TAB, RETを表示する
+(global-whitespace-mode t)
+
 ;; 行数を表示する
 (global-linum-mode t)
 
