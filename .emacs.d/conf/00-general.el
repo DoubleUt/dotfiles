@@ -30,3 +30,6 @@
 ;; バックアップファイルを作らない
 (setq make-backup-files nil)
 (setq auto-save-default nil)
+
+;; ビープ音を消す
+(setq ring-bell-function 'ignore)
