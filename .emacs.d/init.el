@@ -4,7 +4,9 @@
 
 ;; init-loader
 (require 'init-loader)
+(setq init-loader-show-log-after-init nil)
 (init-loader-load "~/.emacs.d/conf")
+(init-loader-load "~/.emacs.d/private")
 
 ;; テーマ設定
 (load-theme 'solarized t)
