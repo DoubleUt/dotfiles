@@ -6,7 +6,9 @@
 (require 'init-loader)
 (setq init-loader-show-log-after-init nil)
 (init-loader-load "~/.emacs.d/conf")
-(init-loader-load "~/.emacs.d/private")
+
+;; コマンドにパスを通す
+(add-to-list 'exec-path "/usr/local/bin")
 
 ;; テーマ設定
 (load-theme 'solarized t)
