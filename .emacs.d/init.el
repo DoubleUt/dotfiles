@@ -18,9 +18,9 @@
 (pallet-mode t)
 
 ;; nyan-mode
-(require 'nyan-mode)
-(nyan-mode)
-(nyan-start-animation)
+;; (require 'nyan-mode)
+;; (nyan-mode)
+;; (nyan-start-animation)
 
 ;; helm
 (require 'helm)
