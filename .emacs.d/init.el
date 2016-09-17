@@ -7,8 +7,9 @@
 (setq init-loader-show-log-after-init nil)
 (init-loader-load "~/.emacs.d/conf")
 
-;; コマンドにパスを通す
-(add-to-list 'exec-path "/usr/local/bin")
+;; $PATHを通す
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 
 ;; テーマ設定
 (load-theme 'solarized t)

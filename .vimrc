@@ -11,7 +11,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'Valloric/YouCompleteMe'
+" Plug 'Valloric/YouCompleteMe'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-surround'
