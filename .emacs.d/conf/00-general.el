@@ -27,6 +27,9 @@
 ;; 対応する括弧を点灯させる
 (show-paren-mode t)
 
+;; 閉じ括弧を挿入
+(setq electric-pair-mode t)
+
 ;; バックアップファイルを作らない
 (setq make-backup-files nil)
 (setq auto-save-default nil)

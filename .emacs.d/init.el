@@ -12,7 +12,8 @@
   (exec-path-from-shell-initialize))
 
 ;; テーマ設定
-(load-theme 'solarized t)
+;;(load-theme 'solarized t)
+(load-theme 'hc-zenburn t)
 
 ;; pallet
 (require 'pallet)
