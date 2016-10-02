@@ -11,6 +11,7 @@
 (package-install 'ciel)
 (package-install 'company)
 (package-install 'company-go)
+(package-install 'fuzzy)
 (package-install 'emmet-mode)
 (package-install 'flycheck)
 (package-install 'flymake)
@@ -24,6 +25,11 @@
 (package-install 'magit)
 (package-install 'nyan-mode)
 (package-install 'popwin)
+(package-install 'ruby-mode)
+(package-install 'ruby-block)
+(package-install 'ruby-electric)
+(package-install 'ruby-end)
+(package-install 'smart-newline)
 (package-install 'web-mode)
 (package-install 'yasnippet)
 (package-install 'zenburn-theme)
@@ -32,6 +38,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; basic
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'cl)
 ;; 言語設定
 (set-language-environment 'Japanese)
 (prefer-coding-system 'utf-8)
@@ -39,15 +46,21 @@
 ;; スタートアップメッセージを表示させない
 (setq inhibit-startup-message t)
 
+;; scratchの初期メッセージの消去
+(setq initial-scratch-message "")
+
 ;; ツールバーを表示しない
 (tool-bar-mode -1)
+
+;; scroll bar を非表示
+(set-scroll-bar-mode nil)
 
 ;; yes or no を y or n
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; TAB
 (setq-default indent-tabs-mode nil)
-(setq default-tab-width 4)
+(setq default-tab-width 2)
 
 ;; SPACE, TAB, RETを表示する
 (global-whitespace-mode t)
@@ -62,7 +75,7 @@
 (show-paren-mode t)
 
 ;; 閉じ括弧を挿入
-(setq electric-pair-mode t)
+(electric-pair-mode t)
 
 ;; バックアップファイルを作らない
 (setq make-backup-files nil)
@@ -73,6 +86,9 @@
 
 ;; 画像ファイルを表示
 (auto-image-file-mode t)
+
+;; 半透明にする
+(set-frame-parameter (selected-frame) 'alpha '(0.85))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindinig
@@ -95,12 +111,20 @@
 (require 'zenburn-theme)
 (load-theme 'zenburn t)
 
+(require 'helm)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(helm-mode t)
+
+(require 'smart-newline)
+(smart-newline-mode t)
+
 (require 'ciel)
 (global-set-key (kbd "C-c i") 'ciel-ci)
 (global-set-key (kbd "C-c o") 'ciel-co)
 
 (require 'nyan-mode)
 (nyan-mode t)
+(nyan-start-animation)
 
 (require 'company)
 (global-company-mode t)
@@ -130,11 +154,52 @@
 (add-hook 'css-mode-hook 'emmet-mode)
 (add-hook 'web-mode-hook 'emmet-mode)
 
+(require 'go-mode)
+(require 'company-go)
+(require 'flycheck)
+(require 'flymake)
+(require 'flymake-go)
 (add-hook 'go-mode-hook 'company-mode)
 (add-hook 'go-mode-hook 'flycheck-mode)
-(add-hook 'go-mode-hook (lambda()
-                          (add-hook 'before-save-hook' 'gofmt-before-save)
-                          (local-set-key (kbd "M-.") 'godef-jump)
-                          (set (make-local-variable 'company-backends)
-                               '(company-go))
-                          (setq company-go-insert-arguments nil)))
+(add-hook 'go-mode-hook
+          '(lambda()
+             (add-hook 'before-save-hook' 'gofmt-before-save)
+             (local-set-key (kbd "M-.") 'godef-jump)
+             (set (make-local-variable 'company-backends)
+                  '(company-go)) (setq company-go-insert-arguments nil)))
+
+(require 'ruby-mode)
+(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Capfiles" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Gemfiles" . ruby-mode))
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (setq tab-width 2)
+             (setq ruby-indent-level tab-width)
+             (setq ruby-deep-indent-paren-style nil)))
+
+;; improve indent of ruby-mode
+(defadvice ruby-indent-line (after unindent-closing-paren activate)
+  (let ((column (current-column))
+        indent offset)
+    (save-excursion
+      (back-to-indentation)
+      (let ((state (syntax-ppss)))
+        (setq offset (- column (current-column)))
+        (when (and (eq (char-after) ?\))
+                   (not (zerop (car state))))
+          (goto-char (cadr state))
+          (setq indent (current-indentation)))))
+    (when indent
+      (indent-line-to indent)
+      (when (> offset 0) (forward-char offset)))))
+
+(require 'ruby-block)
+(ruby-block-mode t)
+(setq ruby-block-highlight-toggle t)
+
+(require 'ruby-electric)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (ruby-electric-mode t)
+             (setq ruby-electric-expand-delimiters-list nil)))
