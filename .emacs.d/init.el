@@ -27,7 +27,6 @@
 (package-install 'popwin)
 (package-install 'ruby-mode)
 (package-install 'ruby-block)
-(package-install 'ruby-electric)
 (package-install 'ruby-end)
 (package-install 'smart-newline)
 (package-install 'web-mode)
@@ -86,6 +85,22 @@
 
 ;; 画像ファイルを表示
 (auto-image-file-mode t)
+
+;; 起動時にウィンドウ最大化
+;; http://www.emacswiki.org/emacs/FullScreen#toc12
+(defun jbr-init ()
+  (interactive)
+  (w32-send-sys-command #xf030)
+  (ecb-redraw-layout)
+  (calendar))
+
+(cond ((eq window-system 'w32)
+       (set-frame-position (selected-frame) 0 0)
+       (setq term-setup-hook 'jbr-init)
+       (setq window-setup-hook 'jbr-init))
+      ((eq window-system 'ns)
+       (set-frame-position (selected-frame) 0 0)
+       (set-frame-size (selected-frame) 200 60)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindinig
@@ -176,6 +191,7 @@
              (setq ruby-deep-indent-paren-style nil)))
 
 ;; improve indent of ruby-mode
+(setq ruby-deep-indent-paren-style nil)
 (defadvice ruby-indent-line (after unindent-closing-paren activate)
   (let ((column (current-column))
         indent offset)
@@ -191,12 +207,14 @@
       (indent-line-to indent)
       (when (> offset 0) (forward-char offset)))))
 
+(require 'ruby-end)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (abbrev-mode t)
+             (electric-pair-mode t)
+             (electric-indent-mode t)
+             (electric-layout-mode t)))
+
 (require 'ruby-block)
 (ruby-block-mode t)
 (setq ruby-block-highlight-toggle t)
-
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (ruby-electric-mode t)
-             (setq ruby-electric-expand-delimiters-list nil)))
