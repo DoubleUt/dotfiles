@@ -129,6 +129,7 @@
 
 (require 'smart-newline)
 (smart-newline-mode t)
+(global-set-key (kbd "<RET>") 'smart-newline)
 
 (require 'ciel)
 (global-set-key (kbd "C-c i") 'ciel-ci)
