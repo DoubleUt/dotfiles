@@ -27,8 +27,10 @@
 (package-install 'json-mode)
 (package-install 'magit)
 (package-install 'markdown-mode)
+(package-install 'multiple-cursors)
 (package-install 'nyan-mode)
 (package-install 'popwin)
+(package-install 'rainbow-delimiters)
 (package-install 'ruby-mode)
 (package-install 'ruby-block)
 (package-install 'ruby-end)
@@ -181,6 +183,9 @@
 (smart-newline-mode t)
 (global-set-key (kbd "<RET>") 'smart-newline)
 
+(require 'rainbow-delimiters)
+(rainbow-delimiters-mode t)
+
 (require 'ace-jump-mode)
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 
@@ -226,7 +231,7 @@
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb$"       . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
 
 (require 'emmet-mode)
