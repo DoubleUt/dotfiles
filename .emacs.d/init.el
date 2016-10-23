@@ -144,20 +144,21 @@
 
 (setq tabbar-separator '(2.0))
 
+(defvar my-tabbar-bg-color "#606060")
 (set-face-attribute
  'tabbar-default nil
  :family "Monaco"
- :background "black"
+ :background my-tabbar-bg-color
  :foreground "gray72"
  :height 1.0)
 (set-face-attribute
  'tabbar-unselected nil
- :background "black"
+ :background my-tabbar-bg-color
  :foreground "grey72"
  :box nil)
 (set-face-attribute
  'tabbar-selected nil
- :background "black"
+ :background my-tabbar-bg-color
  :foreground "yellow"
  :box nil)
 
