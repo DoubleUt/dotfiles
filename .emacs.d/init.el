@@ -26,6 +26,7 @@
 (package-install 'init-loader)
 (package-install 'json-mode)
 (package-install 'magit)
+(package-install 'markdown-mode)
 (package-install 'nyan-mode)
 (package-install 'popwin)
 (package-install 'ruby-mode)
@@ -33,6 +34,7 @@
 (package-install 'ruby-end)
 (package-install 'smart-newline)
 (package-install 'tabbar)
+(package-install 'undo-tree)
 (package-install 'web-mode)
 (package-install 'yasnippet)
 (package-install 'hc-zenburn-theme)
@@ -186,6 +188,9 @@
 (global-set-key (kbd "C-c i") 'ciel-ci)
 (global-set-key (kbd "C-c o") 'ciel-co)
 
+(require 'undo-tree)
+(global-undo-tree-mode t)
+
 (require 'nyan-mode)
 (nyan-mode t)
 (nyan-start-animation)
@@ -213,6 +218,12 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Language
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'markdown-mode)
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.txt\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+(setq markdown-command "marked")
+
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$"       . web-mode))
