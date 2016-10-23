@@ -8,7 +8,9 @@ export PATH="$HOME/.pyenv/bin:$PATH"
 export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PATH=$PATH:/usr/local/opt/go/libexec/bin
 export PATH=$PATH:$GOPATH/bin
-export PATH=$HOME/.cask/bin:$PATH
+
+# git diff-highlight
+export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
 
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
