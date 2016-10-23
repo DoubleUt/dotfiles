@@ -8,6 +8,7 @@
 
 (package-initialize)
 
+(package-install 'ace-jump-mode)
 (package-install 'ciel)
 (package-install 'company)
 (package-install 'company-go)
@@ -16,6 +17,8 @@
 (package-install 'flycheck)
 (package-install 'flymake)
 (package-install 'flymake-go)
+(package-install 'git-gutter+)
+(package-install 'git-gutter-fringe+)
 (package-install 'go-mode)
 (package-install 'helm)
 (package-install 'helm-swoop)
@@ -29,9 +32,10 @@
 (package-install 'ruby-block)
 (package-install 'ruby-end)
 (package-install 'smart-newline)
+(package-install 'tabbar)
 (package-install 'web-mode)
 (package-install 'yasnippet)
-(package-install 'zenburn-theme)
+(package-install 'hc-zenburn-theme)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -86,21 +90,18 @@
 ;; 画像ファイルを表示
 (auto-image-file-mode t)
 
-;; 起動時にウィンドウ最大化
-;; http://www.emacswiki.org/emacs/FullScreen#toc12
-(defun jbr-init ()
-  (interactive)
-  (w32-send-sys-command #xf030)
-  (ecb-redraw-layout)
-  (calendar))
+(unless (eq window-system nil)
+       (set-frame-position (selected-frame) 0 0)
+       (set-frame-size (selected-frame) 150 40))
 
-(cond ((eq window-system 'w32)
-       (set-frame-position (selected-frame) 0 0)
-       (setq term-setup-hook 'jbr-init)
-       (setq window-setup-hook 'jbr-init))
-      ((eq window-system 'ns)
-       (set-frame-position (selected-frame) 0 0)
-       (set-frame-size (selected-frame) 200 60)))
+(load (setq custom-file
+            (expand-file-name "custom.el" user-emacs-directory)))
+
+;; scroll one line at a time (less "jumpy" than defaults)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+(setq scroll-step 1) ;; keyboard scroll one line at a time
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindinig
@@ -114,22 +115,71 @@
 ;; C-zをアンバインド
 (global-unset-key (kbd "C-z"))
 
-(load (setq custom-file
-            (expand-file-name "custom.el" user-emacs-directory)))
+;; Macの場合は円マークをバックスラッシュに
+(define-key global-map [?¥] [?\\])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'zenburn-theme)
-(load-theme 'zenburn t)
+(require 'hc-zenburn-theme)
+(load-theme 'hc-zenburn t)
 
 (require 'helm)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (helm-mode t)
 
+(require 'tabbar)
+(tabbar-mode t)
+(tabbar-mwheel-mode nil)
+(setq tabbar-buffer-groups-function nil)
+;; key binding
+(global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
+(global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
+
+(dolist (btn '(tabbar-buffer-home-button
+               tabbar-scroll-left-button
+               tabbar-scroll-right-button))
+  (set btn (cons (cons "" nil)
+                 (cons "" nil))))
+
+(setq tabbar-separator '(2.0))
+
+(set-face-attribute
+ 'tabbar-default nil
+ :family "Monaco"
+ :background "black"
+ :foreground "gray72"
+ :height 1.0)
+(set-face-attribute
+ 'tabbar-unselected nil
+ :background "black"
+ :foreground "grey72"
+ :box nil)
+(set-face-attribute
+ 'tabbar-selected nil
+ :background "black"
+ :foreground "yellow"
+ :box nil)
+
+(defun my-tabbar-buffer-list ()
+  (delq nil
+        (mapcar #'(lambda (b)
+                    (cond
+                     ((eq (current-buffer) b) b)
+                     ((buffer-file-name b) b)
+                     ((char-equal ?\ (aref (buffer-name b) 0)) nil)
+                     ((equal "*scratch*" (buffer-name b)) b)
+                     ((char-equal ?* (aref (buffer-name b) 0)) nil)
+                     ((buffer-live-p b) b)))
+                (buffer-list))))
+(setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
+
 (require 'smart-newline)
 (smart-newline-mode t)
 (global-set-key (kbd "<RET>") 'smart-newline)
+
+(require 'ace-jump-mode)
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 
 (require 'ciel)
 (global-set-key (kbd "C-c i") 'ciel-ci)
@@ -155,11 +205,16 @@
 (setq helm-yas-space-maych-any-greedy t)
 (global-set-key (kbd "C-c y") 'helm-yas-complete)
 
+(require 'git-gutter+)
+(require 'git-gutter-fringe+)
+(global-git-gutter+-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Language
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb$"       . web-mode))
 (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
 
 (require 'emmet-mode)
