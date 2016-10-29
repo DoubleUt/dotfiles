@@ -8,12 +8,14 @@
 
 (package-initialize)
 
+(package-install 'anzu)
 (package-install 'ace-jump-mode)
 (package-install 'ciel)
 (package-install 'company)
 (package-install 'company-go)
 (package-install 'fuzzy)
 (package-install 'emmet-mode)
+(package-install 'expand-region)
 (package-install 'flycheck)
 (package-install 'flymake)
 (package-install 'flymake-go)
@@ -34,6 +36,7 @@
 (package-install 'ruby-mode)
 (package-install 'ruby-block)
 (package-install 'ruby-end)
+(package-install 'smartrep)
 (package-install 'smart-newline)
 (package-install 'tabbar)
 (package-install 'undo-tree)
@@ -101,11 +104,11 @@
 (load (setq custom-file
             (expand-file-name "custom.el" user-emacs-directory)))
 
-;; scroll one line at a time (less "jumpy" than defaults)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-(setq scroll-step 1) ;; keyboard scroll one line at a time
+;; マウススクロールを１行にする
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+(setq mouse-wheel-follow-mouse 't)
+(setq scroll-step 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; key bindinig
@@ -131,6 +134,9 @@
 (require 'helm)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (helm-mode t)
+
+(require 'anzu)
+(global-anzu-mode t)
 
 (require 'tabbar)
 (tabbar-mode t)
@@ -220,6 +226,31 @@
 (require 'git-gutter-fringe+)
 (global-git-gutter+-mode)
 
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-M-=") 'er/contract-region)
+
+(require 'multiple-cursors)
+(require 'smartrep)
+(declare-function smartrep-define-key "smartrep")
+(global-set-key (kbd "C-M-c") 'mc/edit-lines)
+(global-set-key (kbd "C-M-r") 'mc/mark-all-in-region)
+(global-unset-key "\C-t")
+(smartrep-define-key global-map "C-t"
+  '(("C-t"      . 'mc/mark-next-like-this)
+    ("n"        . 'mc/mark-next-like-this)
+    ("p"        . 'mc/mark-previous-like-this)
+    ("m"        . 'mc/mark-more-like-this-extended)
+    ("u"        . 'mc/unmark-next-like-this)
+    ("U"        . 'mc/unmark-previous-like-this)
+    ("s"        . 'mc/skip-to-next-like-this)
+    ("S"        . 'mc/skip-to-previous-like-this)
+    ("*"        . 'mc/mark-all-like-this)
+    ("d"        . 'mc/mark-all-like-this-dwim)
+    ("i"        . 'mc/insert-numbers)
+    ("o"        . 'mc/sort-regions)
+    ("O"        . 'mc/reverse-regions)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Language
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -228,6 +259,14 @@
 (add-to-list 'auto-mode-alist '("\\.txt\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 (setq markdown-command "marked")
+
+(require 'json-mode)
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.babelrc$" . json-mode))
+(add-hook 'json-mode-hook
+          (lambda ()
+            (make-local-variable 'js-indent-level)
+            (setq js-indent-level 2)))
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
