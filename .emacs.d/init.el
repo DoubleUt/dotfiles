@@ -26,6 +26,7 @@
 (package-install 'helm-swoop)
 (package-install 'helm-c-yasnippet)
 (package-install 'init-loader)
+(package-install 'js2-mode)
 (package-install 'json-mode)
 (package-install 'magit)
 (package-install 'markdown-mode)
@@ -180,6 +181,7 @@
                      ((buffer-file-name b) b)
                      ((char-equal ?\ (aref (buffer-name b) 0)) nil)
                      ((equal "*scratch*" (buffer-name b)) b)
+                     ((equal "*eshell*" (buffer-name b)) b)
                      ((char-equal ?* (aref (buffer-name b) 0)) nil)
                      ((buffer-live-p b) b)))
                 (buffer-list))))
@@ -269,14 +271,19 @@
             (setq js-indent-level 2)))
 
 (require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?$'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.jsp$'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
-(setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+
+(require 'js2-mode)
+(setq js-indent-level 2)
+(add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . js2-jsx-mode))
 
 (require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook 'emmet-mode)
 (add-hook 'web-mode-hook 'emmet-mode)
+(add-hook 'js2-jsx-mode-hook 'emmet-mode)
 
 (require 'go-mode)
 (require 'company-go)
