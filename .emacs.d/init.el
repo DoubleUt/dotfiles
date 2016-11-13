@@ -30,6 +30,7 @@
 (package-install 'json-mode)
 (package-install 'magit)
 (package-install 'markdown-mode)
+(package-install 'multi-term)
 (package-install 'multiple-cursors)
 (package-install 'nyan-mode)
 (package-install 'popwin)
