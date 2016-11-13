@@ -41,6 +41,8 @@
 (package-install 'smartrep)
 (package-install 'smart-newline)
 (package-install 'tabbar)
+(package-install 'tide)
+(package-install 'typescript-mode)
 (package-install 'undo-tree)
 (package-install 'web-mode)
 (package-install 'yasnippet)
@@ -183,6 +185,7 @@
                      ((char-equal ?\ (aref (buffer-name b) 0)) nil)
                      ((equal "*scratch*" (buffer-name b)) b)
                      ((equal "*eshell*" (buffer-name b)) b)
+                     ((string-match "\\*terminal.*\\'" (buffer-name b)) b)
                      ((char-equal ?* (aref (buffer-name b) 0)) nil)
                      ((buffer-live-p b) b)))
                 (buffer-list))))
@@ -215,6 +218,7 @@
 (setq company-idle-delay 0.2)
 (setq company-selection-wrap-around t)
 (setq company-dabbrev-downcase nil)
+(setq company-tooltip-align-annotations t)
 (define-key company-active-map (kbd "C-n") 'company-select-next)
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 
@@ -280,11 +284,28 @@
 (setq js-indent-level 2)
 (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . js2-jsx-mode))
 
+(require 'typescript-mode)
+(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . typescript-mode))
+
+(require 'tide)
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode t)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode t)
+  (tide-hl-identifier-mode t)
+  (company-mode t))
+
+(add-hook 'before-save-hook 'tide-format-before-save)
+(add-hook 'typescript-mode-hook #'setup-tide-mode)
+
 (require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook 'emmet-mode)
 (add-hook 'web-mode-hook 'emmet-mode)
 (add-hook 'js2-jsx-mode-hook 'emmet-mode)
+(add-hook 'typescript-mode-hook 'emmet-mode)
 
 (require 'go-mode)
 (require 'company-go)
