@@ -32,6 +32,7 @@
 (package-install 'markdown-mode)
 (package-install 'multi-term)
 (package-install 'multiple-cursors)
+(package-install 'neotree)
 (package-install 'nyan-mode)
 (package-install 'popwin)
 (package-install 'rainbow-delimiters)
@@ -195,9 +196,6 @@
 (smart-newline-mode t)
 (global-set-key (kbd "<RET>") 'smart-newline)
 
-(require 'rainbow-delimiters)
-(rainbow-delimiters-mode t)
-
 (require 'ace-jump-mode)
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
 
@@ -207,6 +205,10 @@
 
 (require 'undo-tree)
 (global-undo-tree-mode t)
+
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+(setq neo-window-width 28)
 
 (require 'nyan-mode)
 (nyan-mode t)
@@ -285,10 +287,9 @@
 (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . js2-jsx-mode))
 
 (require 'typescript-mode)
-(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . typescript-mode))
-(setq typescript-indent-level 2)
-
 (require 'tide)
+(setq typescript-indent-level 2)
+(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . typescript-mode))
 (defun setup-tide-mode ()
   (interactive)
   (tide-setup)
