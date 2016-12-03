@@ -1,19 +1,10 @@
 # 環境変数
 export LANG=ja_JP.UTF-8
-export GOPATH=$HOME
-
 export PATH=/usr/local/bin:$PATH
-
-export PATH="$HOME/.pyenv/bin:$PATH"
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export GOPATH=$HOME/.go
 export PATH=$PATH:$GOPATH/bin
-
-# git diff-highlight
-export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
-
-eval "$(pyenv init -)"
-eval "$(rbenv init -)"
+export PATH=$HOME/.anyenv/bin:$PATH
+eval "$(anyenv init -)"
 
 # 色を使用出来るようにする
 autoload -Uz colors
@@ -118,11 +109,7 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
 # エイリアス
-alias gp='cd $(ghq list -p | peco)'
-alias repo='cd ~/src/github.com/wtnbass/'
-
 alias e='emacsclient -nw -a ""'
-alias ew='emacs -geometry 200x60'
 alias ekill='emacsclient -e "(kill-emacs)"'
 alias la='ls -a'
 alias ll='ls -l'
