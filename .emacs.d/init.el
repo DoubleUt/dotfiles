@@ -33,8 +33,8 @@
 (package-install 'multi-term)
 (package-install 'multiple-cursors)
 (package-install 'neotree)
-(package-install 'nyan-mode)
 (package-install 'popwin)
+(package-install 'powerline)
 (package-install 'rainbow-delimiters)
 (package-install 'ruby-mode)
 (package-install 'ruby-block)
@@ -49,6 +49,9 @@
 (package-install 'yasnippet)
 (package-install 'hc-zenburn-theme)
 
+(require 'init-loader)
+(setq init-loader-show-log-after-init nil)
+(init-loader-load "~/.emacs.d/inits")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; basic
@@ -130,67 +133,12 @@
 ;; Macの場合は円マークをバックスラッシュに
 (define-key global-map [?¥] [?\\])
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; packages
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'hc-zenburn-theme)
-(load-theme 'hc-zenburn t)
-
 (require 'helm)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (helm-mode t)
 
 (require 'anzu)
 (global-anzu-mode t)
-
-(require 'tabbar)
-(tabbar-mode t)
-(tabbar-mwheel-mode nil)
-(setq tabbar-buffer-groups-function nil)
-;; key binding
-(global-set-key (kbd "<C-tab>") 'tabbar-forward-tab)
-(global-set-key (kbd "<C-S-tab>") 'tabbar-backward-tab)
-
-(dolist (btn '(tabbar-buffer-home-button
-               tabbar-scroll-left-button
-               tabbar-scroll-right-button))
-  (set btn (cons (cons "" nil)
-                 (cons "" nil))))
-
-(setq tabbar-separator '(2.0))
-
-(defvar my-tabbar-bg-color "#606060")
-(set-face-attribute
- 'tabbar-default nil
- :family "Monaco"
- :background my-tabbar-bg-color
- :foreground "gray72"
- :height 1.0)
-(set-face-attribute
- 'tabbar-unselected nil
- :background my-tabbar-bg-color
- :foreground "grey72"
- :box nil)
-(set-face-attribute
- 'tabbar-selected nil
- :background my-tabbar-bg-color
- :foreground "yellow"
- :box nil)
-
-(defun my-tabbar-buffer-list ()
-  (delq nil
-        (mapcar #'(lambda (b)
-                    (cond
-                     ((eq (current-buffer) b) b)
-                     ((buffer-file-name b) b)
-                     ((char-equal ?\ (aref (buffer-name b) 0)) nil)
-                     ((equal "*scratch*" (buffer-name b)) b)
-                     ((equal "*eshell*" (buffer-name b)) b)
-                     ((string-match "\\*terminal.*\\'" (buffer-name b)) b)
-                     ((char-equal ?* (aref (buffer-name b) 0)) nil)
-                     ((buffer-live-p b) b)))
-                (buffer-list))))
-(setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
 
 (require 'smart-newline)
 (smart-newline-mode t)
@@ -210,20 +158,6 @@
 (global-set-key [f8] 'neotree-toggle)
 (setq neo-window-width 28)
 
-(require 'nyan-mode)
-(nyan-mode t)
-(nyan-start-animation)
-
-(require 'company)
-(global-company-mode t)
-(setq company-minimum-prefix-length 1)
-(setq company-idle-delay 0.2)
-(setq company-selection-wrap-around t)
-(setq company-dabbrev-downcase nil)
-(setq company-tooltip-align-annotations t)
-(define-key company-active-map (kbd "C-n") 'company-select-next)
-(define-key company-active-map (kbd "C-p") 'company-select-previous)
-
 (require 'yasnippet)
 (require 'helm-c-yasnippet)
 (yas-global-mode t)
@@ -239,68 +173,12 @@
 (global-set-key (kbd "C-=") 'er/expand-region)
 (global-set-key (kbd "C-M-=") 'er/contract-region)
 
-(require 'multiple-cursors)
-(require 'smartrep)
-(declare-function smartrep-define-key "smartrep")
-(global-set-key (kbd "C-M-c") 'mc/edit-lines)
-(global-set-key (kbd "C-M-r") 'mc/mark-all-in-region)
-(global-unset-key "\C-t")
-(smartrep-define-key global-map "C-t"
-  '(("C-t"      . 'mc/mark-next-like-this)
-    ("n"        . 'mc/mark-next-like-this)
-    ("p"        . 'mc/mark-previous-like-this)
-    ("m"        . 'mc/mark-more-like-this-extended)
-    ("u"        . 'mc/unmark-next-like-this)
-    ("U"        . 'mc/unmark-previous-like-this)
-    ("s"        . 'mc/skip-to-next-like-this)
-    ("S"        . 'mc/skip-to-previous-like-this)
-    ("*"        . 'mc/mark-all-like-this)
-    ("d"        . 'mc/mark-all-like-this-dwim)
-    ("i"        . 'mc/insert-numbers)
-    ("o"        . 'mc/sort-regions)
-    ("O"        . 'mc/reverse-regions)))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Language
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'markdown-mode)
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.txt\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
-(setq markdown-command "marked")
-
-(require 'json-mode)
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-(add-to-list 'auto-mode-alist '("\\.babelrc$" . json-mode))
-(add-hook 'json-mode-hook
-          (lambda ()
-            (make-local-variable 'js-indent-level)
-            (setq js-indent-level 2)))
-
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?$'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.jsp$'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
-
 (require 'js2-mode)
 (setq js-indent-level 2)
 (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . js2-jsx-mode))
-
-(require 'typescript-mode)
-(require 'tide)
-(setq typescript-indent-level 2)
-(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . typescript-mode))
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode t)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode t)
-  (tide-hl-identifier-mode t)
-  (company-mode t))
-
-(add-hook 'before-save-hook 'tide-format-before-save)
-(add-hook 'typescript-mode-hook #'setup-tide-mode)
 
 (require 'emmet-mode)
 (add-hook 'sgml-mode-hook 'emmet-mode)
@@ -308,56 +186,3 @@
 (add-hook 'web-mode-hook 'emmet-mode)
 (add-hook 'js2-jsx-mode-hook 'emmet-mode)
 (add-hook 'typescript-mode-hook 'emmet-mode)
-
-(require 'go-mode)
-(require 'company-go)
-(require 'flycheck)
-(require 'flymake)
-(require 'flymake-go)
-(add-hook 'go-mode-hook 'company-mode)
-(add-hook 'go-mode-hook 'flycheck-mode)
-(add-hook 'go-mode-hook
-          '(lambda()
-             (add-hook 'before-save-hook' 'gofmt-before-save)
-             (local-set-key (kbd "M-.") 'godef-jump)
-             (set (make-local-variable 'company-backends)
-                  '(company-go)) (setq company-go-insert-arguments nil)))
-
-(require 'ruby-mode)
-(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Capfiles" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfiles" . ruby-mode))
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (setq tab-width 2)
-             (setq ruby-indent-level tab-width)
-             (setq ruby-deep-indent-paren-style nil)))
-
-;; improve indent of ruby-mode
-(setq ruby-deep-indent-paren-style nil)
-(defadvice ruby-indent-line (after unindent-closing-paren activate)
-  (let ((column (current-column))
-        indent offset)
-    (save-excursion
-      (back-to-indentation)
-      (let ((state (syntax-ppss)))
-        (setq offset (- column (current-column)))
-        (when (and (eq (char-after) ?\))
-                   (not (zerop (car state))))
-          (goto-char (cadr state))
-          (setq indent (current-indentation)))))
-    (when indent
-      (indent-line-to indent)
-      (when (> offset 0) (forward-char offset)))))
-
-(require 'ruby-end)
-(add-hook 'ruby-mode-hook
-          '(lambda ()
-             (abbrev-mode t)
-             (electric-pair-mode t)
-             (electric-indent-mode t)
-             (electric-layout-mode t)))
-
-(require 'ruby-block)
-(ruby-block-mode t)
-(setq ruby-block-highlight-toggle t)
