@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         pop-global-mark
+        smart-newline
         ))
 
 (setq mc/cmds-to-run-once
