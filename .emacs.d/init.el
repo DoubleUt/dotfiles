@@ -67,30 +67,12 @@
 ;; scratchの初期メッセージの消去
 (setq initial-scratch-message "")
 
-;; ツールバーを表示しない
-(tool-bar-mode -1)
-
-;; scroll bar を非表示
-(set-scroll-bar-mode nil)
-
 ;; yes or no を y or n
 (fset 'yes-or-no-p 'y-or-n-p)
 
 ;; TAB
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 2)
-
-;; SPACE, TAB, RETを表示する
-(global-whitespace-mode t)
-
-;; 行数を表示する
-(global-linum-mode t)
-
-;; Markに色を付ける
-(setq transient-mark-mode t)
-
-;; 対応する括弧を点灯させる
-(show-paren-mode t)
 
 ;; 閉じ括弧を挿入
 (electric-pair-mode t)
