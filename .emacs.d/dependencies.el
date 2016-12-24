@@ -1,13 +1,4 @@
-(require 'package)
-(setq package-user-dir "~/.emacs.d/elisp/elpa/")
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-(package-initialize)
-;; (package-refresh-contents)
-
 (package-install 'anzu)
-(package-delete 'ace-jump-mode)
 (package-install 'ciel)
 (package-install 'company)
 (package-install 'company-go)
@@ -23,17 +14,14 @@
 (package-install 'helm)
 (package-install 'helm-swoop)
 (package-install 'helm-c-yasnippet)
-(package-install 'init-loader)
 (package-install 'js2-mode)
 (package-install 'json-mode)
-(package-install 'magit)
 (package-install 'markdown-mode)
 (package-install 'multi-term)
 (package-install 'multiple-cursors)
 (package-install 'neotree)
 (package-install 'popwin)
 (package-install 'powerline)
-(package-install 'rainbow-delimiters)
 (package-install 'ruby-mode)
 (package-install 'ruby-block)
 (package-install 'ruby-end)
@@ -46,4 +34,3 @@
 (package-install 'web-mode)
 (package-install 'yasnippet)
 (package-install 'hc-zenburn-theme)
-
