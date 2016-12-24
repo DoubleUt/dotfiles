@@ -2,15 +2,12 @@
 ;; packages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'package)
-(setq package-user-dir "~/.emacs.d/elisp/elpa/")
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (setq package-user-dir "~/.emacs.d/elisp/elpa/")
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (package-initialize)
-;; (package-refresh-contents)
-
 (load-file "~/.emacs.d/dependencies.el")
-
 (load (setq custom-file
             (expand-file-name "custom.el" user-emacs-directory)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
