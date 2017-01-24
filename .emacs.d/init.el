@@ -98,6 +98,7 @@
 (setq ruby-indent-level 2)
 (setq typescript-indent-level 2)
 (setq web-mode-markup-indent-offset 2)
+(setq python-indent-offset 4)
 
 (setq markdown-command "marked")
 (setq ruby-deep-indent-paren-style nil)
@@ -116,6 +117,7 @@
 (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Capfiles" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfiles" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
 
 (add-hook 'sgml-mode-hook 'emmet-mode)
 (add-hook 'css-mode-hook 'emmet-mode)
@@ -162,13 +164,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Face
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; display size
 (unless (eq window-system nil)
-       (set-frame-position (selected-frame) 0 0)
-       (set-frame-size (selected-frame) 150 40))
+  (set-frame-parameter nil 'fullscreen 'maximized)
+  (load-theme 'hc-zenburn t))
 
 (setq ns-use-srgb-colorspace nil)
-(load-theme 'hc-zenburn t)
+(setq whitespace-line-column 200)
+
 (powerline-default-theme)
 (set-face-attribute 'mode-line nil
                     :foreground "#fff"
