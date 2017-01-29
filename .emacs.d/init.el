@@ -164,6 +164,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Face
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(set-frame-font "ricty diminished")
+
 (unless (eq window-system nil)
   (set-frame-parameter nil 'fullscreen 'maximized)
   (load-theme 'hc-zenburn t))
