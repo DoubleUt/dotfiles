@@ -1,18 +1,54 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; packages
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'package)
   (setq package-user-dir "~/.emacs.d/elisp/elpa/")
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (package-initialize)
-(load-file "~/.emacs.d/dependencies.el")
-(load (setq custom-file
-            (expand-file-name "custom.el" user-emacs-directory)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(package-install 'anzu)
+(package-install 'ciel)
+(package-install 'company)
+(package-install 'company-go)
+(package-install 'company-tern)
+(package-install 'emojify)
+(package-install 'fuzzy)
+(package-install 'emmet-mode)
+(package-install 'expand-region)
+(package-install 'flycheck)
+(package-install 'flymake)
+(package-install 'flymake-go)
+(package-install 'git-gutter+)
+(package-install 'git-gutter-fringe+)
+(package-install 'go-mode)
+(package-install 'helm)
+(package-install 'helm-c-yasnippet)
+(package-install 'js2-mode)
+(package-install 'json-mode)
+(package-install 'magit)
+(package-install 'markdown-mode)
+(package-install 'multi-term)
+(package-install 'multiple-cursors)
+(package-install 'neotree)
+(package-install 'powerline)
+(package-install 'ruby-mode)
+(package-install 'ruby-block)
+(package-install 'ruby-end)
+(package-install 'rust-mode)
+(package-install 'smartrep)
+(package-install 'smart-newline)
+(package-install 'tide)
+(package-install 'typescript-mode)
+(package-install 'undo-tree)
+(package-install 'web-mode)
+(package-install 'yasnippet)
+(package-install 'hc-zenburn-theme)
+
+(load (setq custom-file (expand-file-name "custom.el" user-emacs-directory)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; common
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'cl)
 (set-language-environment 'Japanese)
 (prefer-coding-system 'utf-8)
@@ -42,9 +78,9 @@
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 2)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; miner-modes
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (auto-image-file-mode t)
 (show-paren-mode t)
 (abbrev-mode t)
@@ -52,8 +88,8 @@
 (global-whitespace-mode t)
 
 (electric-pair-mode t)
-(electric-indent-mode t)
-(electric-layout-mode t)
+(electric-indent-mode -1)
+(electric-layout-mode -1)
 
 (helm-mode t)
 (global-company-mode t)
@@ -62,27 +98,10 @@
 (global-undo-tree-mode t)
 (yas-global-mode t)
 (global-git-gutter+-mode)
-(tabbar-mode t)
-(tabbar-mwheel-mode nil)
+(global-emojify-mode t)
 (require 'ruby-block)
 (ruby-block-mode t)
 
-(defun my-tabbar-buffer-list ()
-  (delq nil (mapcar #'(lambda (b)
-                        (cond
-                         ((eq (current-buffer) b) b)
-                         ((buffer-file-name b) b)
-                         ((char-equal ?\ (aref (buffer-name b) 0)) nil)
-                         ((char-equal ?* (aref (buffer-name b) 0)) nil)
-                         ((buffer-live-p b) b)))
-                    (buffer-list))))
-
-(dolist (btn '(tabbar-buffer-home-button
-               tabbar-scroll-left-button
-               tabbar-scroll-right-button))
-  (set btn (cons (cons "" nil) (cons "" nil))))
-
-(setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
 (setq company-minimum-prefix-length 1)
 (setq company-idle-delay 0.2)
 (setq company-selection-wrap-around t)
@@ -91,8 +110,6 @@
 (setq neo-window-width 28)
 (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
 (setq helm-yas-space-maych-any-greedy t)
-(setq tabbar-buffer-groups-function nil)
-(setq tabbar-separator '(2.0))
 
 (setq js-indent-level 2)
 (setq ruby-indent-level 2)
@@ -123,12 +140,26 @@
 (add-hook 'css-mode-hook 'emmet-mode)
 (add-hook 'web-mode-hook 'emmet-mode)
 (add-hook 'js2-jsx-mode-hook 'emmet-mode)
+(add-hook 'js2-jsx-mode-hook 'tern-mode)
+(add-hook 'js2-jsx-mode-hook 'my-js2-settings)
 (add-hook 'typescript-mode-hook 'emmet-mode)
 (add-hook 'go-mode-hook 'company-mode)
 (add-hook 'go-mode-hook 'flycheck-mode)
 (add-hook 'go-mode-hook 'go-setting)
 (add-hook 'before-save-hook 'tide-format-before-save)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
+
+
+(defun my-js2-settings()
+  (add-to-list 'company-backends '(company-tern :with company-dabbrev-code))
+  (setq js2-include-browser-externs nil)
+  (setq js2-mode-show-parse-errors nil)
+  (setq js2-mode-show-strict-warnings nil)
+  (setq js2-strict-trailing-comma-warning nil)
+  (setq js2-highlight-external-variables nil)
+  (setq js2-include-jslint-globals nil)
+  (flycheck-mode t)
+  (flycheck-add-mode 'javascript-eslint 'js2-mode))
 
 (defun setup-tide-mode ()
   (interactive)
@@ -161,53 +192,44 @@
     (when indent
       (indent-line-to indent)
       (when (> offset 0) (forward-char offset)))))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Face
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(set-frame-font "ricty diminished")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(set-frame-font (font-spec
+                 :family "ricty diminished"
+                 :size 13))
 
 (unless (eq window-system nil)
   (set-frame-parameter nil 'fullscreen 'maximized)
   (load-theme 'hc-zenburn t))
-
-(setq ns-use-srgb-colorspace nil)
-(setq whitespace-line-column 200)
 
 (powerline-default-theme)
 (set-face-attribute 'mode-line nil
                     :foreground "#fff"
                     :background "SpringGreen4"
                     :box nil)
+
+(setq ns-use-srgb-colorspace nil)
+(setq whitespace-line-column 200)
 (set-face-attribute 'whitespace-space nil
                     :background nil
                     :foreground "gray50")
 (set-face-attribute 'whitespace-tab nil
                     :background nil
                     :foreground "gray50")
-(set-face-attribute 'tabbar-default nil
-                    :family "Monaco"
-                    :background "#606060"
-                    :foreground "gray72"
-                    :height 1.0)
-(set-face-attribute 'tabbar-unselected nil
-                    :background "#606060"
-                    :foreground "grey72"
-                    :box nil)
-(set-face-attribute 'tabbar-selected nil
-                    :background "#606060"
-                    :foreground "yellow"
-                    :box nil)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; KeyBinding
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'smartrep)
 (global-unset-key (kbd "C-z"))
 (define-key key-translation-map (kbd "C-h") (kbd "<DEL>"))
 (define-key global-map (kbd "C-x ?") 'help-command)
 (define-key global-map [?¥] [?\\])
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "<RET>") 'smart-newline)
+(global-set-key (kbd "C-c g") 'magit-status)
 (global-set-key (kbd "C-c i") 'ciel-ci)
 (global-set-key (kbd "C-c o") 'ciel-co)
 (global-set-key [f8] 'neotree-toggle)
