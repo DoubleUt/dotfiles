@@ -110,8 +110,10 @@
 (setq neo-window-width 28)
 (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
 (setq helm-yas-space-maych-any-greedy t)
+(setq emmet-self-closing-tag-style " /")
 
 (setq js-indent-level 2)
+(setq css-indent-offset 2)
 (setq ruby-indent-level 2)
 (setq typescript-indent-level 2)
 (setq web-mode-markup-indent-offset 2)
@@ -145,10 +147,9 @@
 (add-hook 'typescript-mode-hook 'emmet-mode)
 (add-hook 'go-mode-hook 'company-mode)
 (add-hook 'go-mode-hook 'flycheck-mode)
-(add-hook 'go-mode-hook 'go-setting)
+(add-hook 'go-mode-hook 'go-settings)
 (add-hook 'before-save-hook 'tide-format-before-save)
 (add-hook 'typescript-mode-hook #'setup-tide-mode)
-
 
 (defun my-js2-settings()
   (add-to-list 'company-backends '(company-tern :with company-dabbrev-code))
@@ -158,8 +159,14 @@
   (setq js2-strict-trailing-comma-warning nil)
   (setq js2-highlight-external-variables nil)
   (setq js2-include-jslint-globals nil)
-  (flycheck-mode t)
-  (flycheck-add-mode 'javascript-eslint 'js2-mode))
+  (setq js2-basic-offset 2)
+  (setq js-switch-indent-offset 2)
+  (setq emmet-expand-jsx-className? t)
+  (setq-default flycheck-disabled-checkers
+                (append flycheck-disabled-checkers
+                        '(javascript-jshint javascript-standard)))
+  (flycheck-add-mode 'javascript-eslint 'js2-mode)
+  (flycheck-mode t))
 
 (defun setup-tide-mode ()
   (interactive)
@@ -173,6 +180,7 @@
 (defun go-settings ()
   (add-hook 'before-save-hook' 'gofmt-before-save)
   (local-set-key (kbd "M-.") 'godef-jump)
+  (flycheck-mode t)
   (set (make-local-variable 'company-backends) '(company-go))
   (setq company-go-insert-arguments nil))
 
@@ -198,6 +206,11 @@
 (set-frame-font (font-spec
                  :family "ricty diminished"
                  :size 13))
+
+;; CommandとOptionを入れ替える
+(when (eq system-type 'darwin)
+  (setq ns-command-modifier (quote meta))
+  (setq ns-alternate-modifier (quote super)))
 
 (unless (eq window-system nil)
   (set-frame-parameter nil 'fullscreen 'maximized)
