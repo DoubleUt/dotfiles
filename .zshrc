@@ -3,8 +3,7 @@ export LANG=ja_JP.UTF-8
 export PATH=/usr/local/bin:$PATH
 export GOPATH=$HOME/.go
 export PATH=$PATH:$GOPATH/bin
-export PATH=$HOME/.anyenv/bin:$PATH
-eval "$(anyenv init -)"
+export PATH="$HOME/.cask/bin:$PATH"
 
 # 色を使用出来るようにする
 autoload -Uz colors
@@ -109,7 +108,7 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
 # エイリアス
-alias e='emacsclient -nw -a ""'
+alias e='emacs&'
 alias ekill='emacsclient -e "(kill-emacs)"'
 alias la='ls -a'
 alias ll='ls -l'
