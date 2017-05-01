@@ -5,6 +5,10 @@ export GOPATH=$HOME/.go
 export PATH=$PATH:$GOPATH/bin
 export PATH="$HOME/.cask/bin:$PATH"
 
+source ~/.cargo/env
+export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
+source ~/emsdk-portable/emsdk_env.sh > /dev/null 2>&1
+
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
