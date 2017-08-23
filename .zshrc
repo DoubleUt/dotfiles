@@ -105,8 +105,10 @@ alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
 alias chrome-canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary"
 alias chromium="/Applications/Chromium.app/Contents/MacOS/Chromium"
 
-alias e='emacs&'
+alias e='emacsclient -t -a ""'
+alias emacs='emacsclient -c -a ""'
 alias ekill='emacsclient -e "(kill-emacs)"'
+
 alias la='ls -a'
 alias ll='ls -l'
 
