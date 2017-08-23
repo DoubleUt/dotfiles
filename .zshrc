@@ -1,14 +1,3 @@
-# 環境変数
-export LANG=ja_JP.UTF-8
-export PATH=/usr/local/bin:$PATH
-export GOPATH=$HOME/.go
-export PATH=$PATH:$GOPATH/bin
-export PATH="$HOME/.cask/bin:$PATH"
-
-source ~/.cargo/env
-export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
-source ~/emsdk-portable/emsdk_env.sh > /dev/null 2>&1
-
 # 色を使用出来るようにする
 autoload -Uz colors
 colors
@@ -112,6 +101,10 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
 # エイリアス
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+alias chrome-canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary"
+alias chromium="/Applications/Chromium.app/Contents/MacOS/Chromium"
+
 alias e='emacs&'
 alias ekill='emacsclient -e "(kill-emacs)"'
 alias la='ls -a'
