@@ -109,6 +109,7 @@ alias ghci='stack ghci'
 alias ghc='stack ghc --'
 alias runghc='stack runghc --'
 
+alias lx='exa -aghHl --git'
 alias g='cd $(ghq root)/$(ghq list | fzf)'
 
 alias t='tmux'

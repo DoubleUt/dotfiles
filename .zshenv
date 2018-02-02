@@ -4,6 +4,7 @@ export LANG=ja_JP.UTF-8
 export LSCOLORS=gxfxcxdxbxegedabagacad
 
 # Homebrew
+export PATH=/usr/local/opt/texinfo/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 
 # Cask
@@ -15,7 +16,7 @@ export PATH=$PATH:$GOPATH/bin
 
 # Rust
 source ~/.cargo/env
-export RUST_SRC_PATH=~/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # GHQ
 export GHQ_ROOT=~/src
