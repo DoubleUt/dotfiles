@@ -101,15 +101,11 @@ bindkey '^R' history-incremental-pattern-search-backward
 
 ########################################
 # エイリアス
-alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-alias chrome-canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary"
-alias chromium="/Applications/Chromium.app/Contents/MacOS/Chromium"
-
 alias ghci='stack ghci'
 alias ghc='stack ghc --'
 alias runghc='stack runghc --'
 
-alias lx='exa -aghHl --git'
+alias l='exa -aghHl --git'
 alias g='cd $(ghq root)/$(ghq list | fzf)'
 
 alias t='tmux'
@@ -130,9 +126,6 @@ alias mkdir='mkdir -p'
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
 
-# グローバルエイリアス
-alias -g L='| less'
-alias -g G='| grep'
 
 ########################################
 # OS 別の設定
