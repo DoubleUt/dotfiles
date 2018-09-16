@@ -3,7 +3,7 @@
 ## Install
 
 ```
-git clone https://github.com/wtnbass/dotfiles.git ~/dotfiles
+git clone https://github.com/wtnbass/dotfiles.git
 cd dotfiles
 ./setup.sh
 ```

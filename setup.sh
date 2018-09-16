@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOT_FILES=(.tmux.conf .vimrc .zshrc .zshenv)
+DOT_FILES=(.tmux.conf .vimrc .zshrc .zshenv .config/fish)
 
 for file in ${DOT_FILES[@]}
 do
@@ -8,5 +8,5 @@ do
     then
         rm ~/$file
     fi
-    ln -s ~/dotfiles/$file ~/$file
+    ln -s $(pwd)/$file ~/$file
 done
