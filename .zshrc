@@ -113,6 +113,7 @@ alias ta='tmux attach'
 
 alias e='emacsclient -t -a ""'
 alias ekill='emacsclient -e "(kill-emacs)"'
+alias em='emacs &'
 
 alias la='ls -a'
 alias ll='ls -l'
