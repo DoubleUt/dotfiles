@@ -1,12 +1,8 @@
 #!/bin/bash
 
-DOT_FILES=(.tmux.conf .vimrc .zshrc .zshenv .config/fish)
+DOT_FILES=(.tmux.conf .vimrc .zshrc .zshenv .bashrc)
 
 for file in ${DOT_FILES[@]}
 do
-    if [ -f ~/$file ]
-    then
-        rm ~/$file
-    fi
-    ln -s $(pwd)/$file ~/$file
+    ln -Fs $(pwd)/$file ~/$file
 done

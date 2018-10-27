@@ -105,7 +105,7 @@ alias ghci='stack ghci'
 alias ghc='stack ghc --'
 alias runghc='stack runghc --'
 
-alias l='exa -aghHl --git'
+alias ll='exa -aghHl --git'
 alias g='cd $(ghq root)/$(ghq list | fzf)'
 
 alias t='tmux'
@@ -113,10 +113,10 @@ alias ta='tmux attach'
 
 alias e='emacsclient -t -a ""'
 alias ekill='emacsclient -e "(kill-emacs)"'
-alias em='emacs &'
+alias ew='emacs &'
 
 alias la='ls -a'
-alias ll='ls -l'
+# alias ll='ls -l'
 
 alias rm='rm -i'
 alias cp='cp -i'
