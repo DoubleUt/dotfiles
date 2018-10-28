@@ -70,3 +70,21 @@ if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
   __GIT_PROMPT_DIR=$(brew --prefix)/opt/bash-git-prompt/share
   source "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh"
 fi
+
+# Completion
+# ======
+
+# bash completion
+if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
+    source "$(brew --prefix)/etc/bash_completion"
+fi
+
+# git completion
+if [ -f "$(brew --prefix)/opt/git/etc/bash_completion.d/git-prompt.sh" ]; then
+    source "$(brew --prefix)/opt/git/etc/bash_completion.d/git-prompt.sh"
+fi
+
+# npm
+if hash npm 2>/dev/null; then
+    source <(npm completion)
+fi
