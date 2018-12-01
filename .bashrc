@@ -74,6 +74,9 @@ fi
 # Completion
 # ======
 
+bind "set completion-ignore-case on"
+bind "set show-all-if-unmodified on"
+
 # bash completion
 if [ -f "$(brew --prefix)/etc/bash_completion" ]; then
     source "$(brew --prefix)/etc/bash_completion"
