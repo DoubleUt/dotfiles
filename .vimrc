@@ -33,6 +33,7 @@ set listchars=tab:>-,trail:.
 
 " key bindings
 inoremap <silent> jj <ESC>
+set whichwrap+=h,l
 
 " dont make any backup files
 set nobackup
