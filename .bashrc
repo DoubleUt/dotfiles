@@ -20,9 +20,6 @@ export LESS_TERMCAP_us=$'\E[01;32m'      # Begins underline.
 export PATH=/usr/local/opt/texinfo/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 
-# Cask
-export PATH="$HOME/.cask/bin:$PATH"
-
 # GHQ
 export GHQ_ROOT=$HOME/src
 
@@ -33,6 +30,9 @@ export PATH=$PATH:$GOPATH/bin
 # Rust
 source ~/.cargo/env
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
+# Emacs
+source ~/.emacs.d/settings.sh
 
 # Alias
 # ======
@@ -46,10 +46,6 @@ alias g='cd $(ghq root)/$(ghq list | fzf)'
 
 alias t='tmux'
 alias ta='tmux attach'
-
-alias e='emacsclient -t -a ""'
-alias ekill='emacsclient -e "(kill-emacs)"'
-alias ew='emacs &'
 
 alias la='ls -a'
 # alias ll='ls -l'
