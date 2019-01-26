@@ -24,7 +24,7 @@ export PATH=/usr/local/bin:$PATH
 export GHQ_ROOT=$HOME/src
 
 # Go
-export GOPATH=$HOME/src
+export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
 # Rust
@@ -42,7 +42,7 @@ alias ghc='stack ghc --'
 alias runghc='stack runghc --'
 
 alias ll='exa -aghHl --git'
-alias g='cd $(ghq root)/$(ghq list | fzf)'
+alias g='cd ~/Projects/$(ls ~/Projects | fzf)'
 
 alias t='tmux'
 alias ta='tmux attach'
