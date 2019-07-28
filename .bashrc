@@ -17,6 +17,7 @@ export LESS_TERMCAP_ue=$'\E[0m'          # Ends underline.
 export LESS_TERMCAP_us=$'\E[01;32m'      # Begins underline.
 
 # Homebrew
+export PATH=/usr/local/opt/openssl/bin:$PATH
 export PATH=/usr/local/opt/texinfo/bin:$PATH
 export PATH=/usr/local/bin:$PATH
 
