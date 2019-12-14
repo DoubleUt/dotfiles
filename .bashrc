@@ -37,19 +37,19 @@ source ~/.emacs.d/settings.sh
 
 # Alias
 # ======
+alias g='git'
 
-alias ghci='stack ghci'
-alias ghc='stack ghc --'
-alias runghc='stack runghc --'
-
+alias la='ls -a'
+# alias ll='ls -l'
 alias ll='exa -aghHl --git'
-alias g='cd ~/Projects/$(ls ~/Projects | fzf)'
+alias p='cd ~/Projects/$(ls ~/Projects | fzf)'
 
 alias t='tmux'
 alias ta='tmux attach'
 
-alias la='ls -a'
-# alias ll='ls -l'
+alias ghci='stack ghci'
+alias ghc='stack ghc --'
+alias runghc='stack runghc --'
 
 alias rm='rm -i'
 alias cp='cp -i'

@@ -1,0 +1,21 @@
+[user]
+        name = wtnbass
+        email = bass.ksk@gmail.com
+[core]
+        editor = emacs -q -nw
+[color]
+        ui = true
+[merge]
+        tool = vimdiff
+[rebase]
+        autosquash = true
+[alias]
+        lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches"
+        amend = "commit --amend --"
+        unstage = "reset HEAD -- "
+
+[filter "lfs"]
+        clean = git-lfs clean -- %f
+        smudge = git-lfs smudge -- %f
+        process = git-lfs filter-process
+        required = true
