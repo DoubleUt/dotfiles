@@ -1,14 +1,17 @@
 [user]
         name = wtnbass
-        email = bass.ksk@gmail.com
+        email = wtnbass@icloud.com
 [core]
         editor = emacs -q -nw
 [color]
         ui = true
 [merge]
         tool = vimdiff
+        ff = false
 [rebase]
         autosquash = true
+[pull]
+        ff = only
 [alias]
         lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches"
         amend = "commit --amend --"
